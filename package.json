@@ -1,0 +1,19 @@
+{
+  "name": "@langnang/vue-template",
+  "version": "0.0.1",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/langnang/vue-template.git"
+  },
+  "keywords": [
+    "template",
+    "vue"
+  ],
+  "author": "langnang <langnang.chen@outlook.com> (https://github.com/langnang)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/langnang/vue-template/issues"
+  },
+  "homepage": "https://github.com/langnang/vue-template#readme"
+}
