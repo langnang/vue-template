@@ -26,7 +26,7 @@ module.exports = {
     // 场景
     scene: {
       type: 'list',
-      message: 'Project Secne',
+      message: 'Project Scene',
       choices: [
         // 前端
         {
@@ -72,6 +72,7 @@ module.exports = {
       message: 'CSS Preprocessor',
       default: false,
     },
+    // CSS 预处理器
     cssPreprocessor: {
       when: 'isCssPreprocessor',
       type: 'list',
@@ -104,9 +105,9 @@ module.exports = {
     'src/store/**/*': 'plugins[\'vuex\']',
     'tsconfig.json': 'plugins[\'typescript\']',
     'src/**/*.ts': 'plugins[\'typescript\']',
-    'src/plugins/axios.js': 'plugins[\'axios\']'
-    'src/plugins/element.js': 'plugins[\'element-ui\']'
-    'src/plugins/fontawesome.js': 'plugins[\'font-awesome\']'
+    'src/plugins/axios.js': 'plugins[\'axios\']',
+    'src/plugins/element.js': 'plugins[\'element-ui\']',
+    'src/plugins/fontawesome.js': 'plugins[\'font-awesome\']',
   },
   helpers: {
     // 是否可用
@@ -165,6 +166,5 @@ module.exports = {
     },
   },
   complete: function (data) {
-    console.log(data);
   },
 };

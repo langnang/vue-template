@@ -31,7 +31,11 @@ _axios.interceptors.request.use(
 _axios.interceptors.response.use(
   function (response) {
     // Do something with response data
-    return response;
+    if (response.status === 200 && response.data.status === 200) {
+      return response;
+    } else {
+      return Promise.reject(response.data)
+    }
   },
   function (error) {
     // Do something with response error
