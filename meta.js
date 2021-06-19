@@ -1,115 +1,17 @@
 'use strict';
 
+const generatorPrompts = function () {
+}
+
 module.exports = {
-  prompts: {
-    // 名称
-    name: {
-      type: 'string',
-      required: true,
-      message: 'Project Name',
-      default: 'my-vue-project',
-    },
-    // 版本
-    version: {
-      type: 'string',
-      required: true,
-      message: 'Project Version',
-      default: '0.0.1',
-    },
-    // 描述
-    description: {
-      type: 'string',
-      required: false,
-      message: 'Project Description',
-      default: 'A vue.js project',
-    },
-    // 场景
-    scene: {
-      type: 'list',
-      message: 'Project Scene',
-      choices: [
-        // 前端
-        {
-          name: 'Client',
-          value: 'client',
-          short: 'client',
-        },
-        // 组件库
-        {
-          name: 'Component',
-          value: 'component',
-          short: 'component',
-        },
-        // 桌面端
-        {
-          name: 'Desktop',
-          value: 'desktop',
-          short: 'desktop',
-        },
-        // 移动端
-        {
-          name: 'Mobile (uni-app)',
-          value: 'mobile',
-          short: 'mobile',
-        },
-      ],
-    },
-    // Vue 版本
-    vueVersion: {
-      type: 'list',
-      message: 'Project Vue Version',
-      choices: [
-        {
-          name: 'Vue 2.x',
-          value: 'vue2',
-          short: 'vue2',
-        },
-      ],
-    },
-    // CSS 预处理器
-    isCssPreprocessor: {
-      type: 'confirm',
-      message: 'CSS Preprocessor',
-      default: false,
-    },
-    // CSS 预处理器
-    cssPreprocessor: {
-      when: 'isCssPreprocessor',
-      type: 'list',
-      message: 'Select a css preprocessor',
-      choices: [
-        {
-          name: 'Sass / Scss',
-          value: 'sass',
-          short: 'sass',
-        },
-        {
-          name: 'Less',
-          value: 'less',
-          short: 'less',
-        },
-      ],
-    },
-    // 插件
-    plugins: {
-      type: 'checkbox',
-      message: 'Select which Vue plugins to install',
-      choices: ['vue-router', 'vuex', 'typescript', 'axios', 'element-ui', 'font-awesome',],
-      default: ['vue-router', 'vuex', 'axios', 'element-ui', 'font-awesome'],
-    },
-  },
-  // 过滤
-  filters: {
-    'src/routes/**/*': 'plugins[\'vue-router\']',
-    'src/views/**/*': 'plugins[\'vue-router\']',
-    'src/store/**/*': 'plugins[\'vuex\']',
-    'tsconfig.json': 'plugins[\'typescript\']',
-    'src/**/*.ts': 'plugins[\'typescript\']',
-    'src/plugins/axios.js': 'plugins[\'axios\']',
-    'src/plugins/element.js': 'plugins[\'element-ui\']',
-    'src/plugins/fontawesome.js': 'plugins[\'font-awesome\']',
+  metalsmith: {
+    before: function () {
+      console.log("metalsmith")
+    }
   },
   helpers: {
+    if_or() {
+    },
     // 是否可用
     isEnabled(list, check, opts) {
       if (list[check]) return opts.fn(this)
@@ -165,6 +67,119 @@ module.exports = {
       return output
     },
   },
+  prompts: {
+    // 场景
+    scene: {
+      type: 'list',
+      message: 'Project Scene',
+      choices: [
+        // 前端
+        {
+          name: 'Client (Single Page Application)',
+          value: 'Client',
+          short: 'Client',
+        },
+        // 组件库
+        {
+          name: 'Component',
+          value: 'Component',
+          short: 'Component',
+        },
+        // 桌面端
+        {
+          name: 'Desktop',
+          value: 'Desktop',
+          short: 'Desktop',
+        },
+        // 移动端
+        {
+          name: 'Mobile (uni-app)',
+          value: 'Mobile',
+          short: 'Mobile',
+        },
+      ],
+    },
+    // 名称
+    name: {
+      type: 'string',
+      required: true,
+      message: 'Project Name',
+      default: 'my-vue-project',
+    },
+    // 版本
+    version: {
+      type: 'string',
+      required: true,
+      message: 'Project Version',
+      default: '0.0.1',
+    },
+    // 描述
+    description: {
+      type: 'string',
+      required: false,
+      message: 'Project Description',
+      default: 'A vue.js project',
+    },
+
+    // Vue 版本
+    vueVersion: {
+      type: 'list',
+      message: 'Project Vue Version',
+      choices: [
+        {
+          name: 'Vue 2.x',
+          value: 'vue2',
+          short: 'vue2',
+        },
+      ],
+    },
+    // CSS 预处理器
+    isCssPreprocessor: {
+      type: 'confirm',
+      message: 'CSS Preprocessor',
+      default: false,
+    },
+    // CSS 预处理器
+    cssPreprocessor: {
+      when: 'isCssPreprocessor',
+      type: 'list',
+      message: 'Select a css preprocessor',
+      choices: [
+        {
+          name: 'Sass / Scss',
+          value: 'sass',
+          short: 'sass',
+        },
+        {
+          name: 'Less',
+          value: 'less',
+          short: 'less',
+        },
+      ],
+    },
+    // 插件
+    plugins: {
+      when: 'scene !== "Component"',
+      type: 'checkbox',
+      message: 'Select which Vue plugins to install',
+      choices: ['vue-router', 'vuex', 'typescript', 'axios', 'element-ui', 'font-awesome',],
+      default: ['vue-router', 'vuex', 'axios', 'element-ui', 'font-awesome'],
+    },
+  },
+  // 过滤
+  filters: {
+    'src/routes/**/*': 'plugins[\'vue-router\']',
+    'src/views/**/*': 'plugins[\'vue-router\']',
+    'src/store/**/*': 'plugins[\'vuex\']',
+    'tsconfig.json': 'plugins[\'typescript\']',
+    'src/**/*.ts': 'plugins[\'typescript\']',
+    'src/plugins/axios.js': 'plugins[\'axios\']',
+    'src/plugins/element.js': 'plugins[\'element-ui\']',
+    'src/plugins/fontawesome.js': 'plugins[\'font-awesome\']',
+  },
+  completeMessage: "",
   complete: function (data) {
   },
 };
+
+
