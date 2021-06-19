@@ -5,6 +5,19 @@
   </div>
 </template>
 
+{{#isEnabled plugins 'typescript'}}
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from './components/HelloWorld.vue';
+
+@Component({
+  components: {
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
+</script>
+{{else}}
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 
@@ -15,6 +28,7 @@ export default {
   }
 }
 </script>
+{{/isEnabled}}
 
 <style>
 #app {

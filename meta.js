@@ -1,8 +1,5 @@
 'use strict';
 
-const {deps, devDeps} = require("./utils/deps")
-
-
 module.exports = {
   prompts: {
     // 名称
@@ -24,7 +21,7 @@ module.exports = {
       type: 'string',
       required: false,
       message: 'Project Description',
-      default: 'An vue project',
+      default: 'A vue.js project',
     },
     // 场景
     scene: {
@@ -67,18 +64,7 @@ module.exports = {
           value: 'vue2',
           short: 'vue2',
         },
-        {
-          name: 'Vue 3.x',
-          value: 'vue3',
-          short: 'vue3',
-        },
       ],
-    },
-    // TypeScript
-    ts: {
-      type: 'confirm',
-      message: 'TypeScript',
-      default: false,
     },
     // CSS 预处理器
     isCssPreprocessor: {
@@ -107,16 +93,76 @@ module.exports = {
     plugins: {
       type: 'checkbox',
       message: 'Select which Vue plugins to install',
-      choices: ['axios', 'vue-router', 'vuex', 'element-ui', 'font-awesome'],
-      default: ['axios', 'vue-router', 'vuex', 'element-ui', 'font-awesome'],
+      choices: ['vue-router', 'vuex', 'typescript', 'axios', 'element-ui', 'font-awesome',],
+      default: ['vue-router', 'vuex', 'axios', 'element-ui', 'font-awesome'],
     },
-  },
-  helpers: {
-    deps,
-    devDeps,
   },
   // 过滤
   filters: {
+    'src/routes/**/*': 'plugins[\'vue-router\']',
+    'src/views/**/*': 'plugins[\'vue-router\']',
+    'src/store/**/*': 'plugins[\'vuex\']',
+    'tsconfig.json': 'plugins[\'typescript\']',
+    'src/**/*.ts': 'plugins[\'typescript\']',
+    'src/plugins/axios.js': 'plugins[\'axios\']'
+    'src/plugins/element.js': 'plugins[\'element-ui\']'
+    'src/plugins/fontawesome.js': 'plugins[\'font-awesome\']'
+  },
+  helpers: {
+    // 是否可用
+    isEnabled(list, check, opts) {
+      if (list[check]) return opts.fn(this)
+      else return opts.inverse(this)
+    },
+    // 依赖包
+    deps: function (vue, plugins) {
+      let output = '';
+      if (vue === 'vue2') {
+        output += '"core-js": "^3.6.5",\n' +
+          '    "vue": "^2.6.11"';
+        if (plugins["typescript"]) {
+          output += ',\n' +
+            '    "vue-class-component": "^7.2.3",\n' +
+            '    "vue-property-decorator": "^9.1.2"'
+        }
+      } else {
+        output += '"core-js": "^3.6.5",\n' +
+          '    "vue": "^3.0.0"';
+      }
+      return output;
+    },
+    // 开发依赖包
+    devDeps: function (vue, plugins) {
+      let output = '';
+      if (vue === 'vue2') {
+        output += '"@vue/cli-plugin-babel": "~4.5.0",\n' +
+          '    "@vue/cli-plugin-eslint": "~4.5.0",\n' +
+          '    "@vue/cli-service": "~4.5.0",\n' +
+          '    "babel-eslint": "^10.1.0",\n' +
+          '    "eslint": "^6.7.2",\n' +
+          '    "eslint-plugin-vue": "^6.2.2"';
+        if (plugins['typescript']) {
+          output += ',\n' +
+            '    "typescript": "~4.1.5"';
+        }
+        output += ',\n' +
+          '    "vue-template-compiler": "^2.6.11"';
+      } else {
+        output += '"@vue/cli-plugin-babel": "~4.5.0",\n' +
+          '    "@vue/cli-plugin-eslint": "~4.5.0",\n' +
+          '    "@vue/cli-service": "~4.5.0",\n' +
+          '    "@vue/compiler-sfc": "^3.0.0",\n' +
+          '    "babel-eslint": "^10.1.0",\n' +
+          '    "eslint": "^6.7.2",\n' +
+          '    "eslint-plugin-vue": "^7.0.0"';
+      }
+
+      if (plugins['typescript']) {
+        output += ',\n' +
+          '"typescript": "~4.1.5"'
+      }
+      return output
+    },
   },
   complete: function (data) {
     console.log(data);
